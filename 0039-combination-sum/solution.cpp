@@ -1,36 +1,32 @@
 class Solution {
 public:
     
-    void combinationSumUtil(vector<int> candidates,vector<int> temp,set<vector<int>> &s,int target)
+    void combinationSumUtil(vector<int> nums,vector<int> temp,vector<vector<int>> &s,int i,int n,int target)
     {
         if (target==0)
         {
-            sort(temp.begin(),temp.end());
-            s.insert(temp);
-            return;
+            s.push_back(temp);
+            return ;
         }
-        if (target<0)
+        else if (target>0)
         {
-            return;
-        }
-        for (int i=0; i<candidates.size(); i++)
-        {
-            
-           
-                temp.push_back(candidates[i]);
-                combinationSumUtil(candidates,temp,s,target-candidates[i]);
-                temp.pop_back();
+            for (int j=i; j<n; j++)
+            {
+                if (j==i || nums[j]!=nums[j-1])
+                {
+                    temp.push_back(nums[j]);
+                    combinationSumUtil(nums,temp,s,j,n,target-nums[j]);
+                    temp.pop_back();
+                }
+            }
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
         vector<int> temp;
-        set<vector<int>> s;
-        combinationSumUtil(candidates,temp,s,target);
-        for (set<vector<int>>::iterator it=s.begin(); it!=s.end(); it++)
-        {
-            ans.push_back(*it);
-        }
+        sort(candidates.begin(),candidates.end());
+        int n=candidates.size();
+        combinationSumUtil(candidates,temp,ans,0,n,target);
         return ans;
     }
 };
