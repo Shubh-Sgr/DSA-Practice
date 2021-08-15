@@ -1,35 +1,24 @@
 class Solution {
 public:
-    void calcSubsets(vector<int> nums,set<vector<int>> &s,int n,vector<int> temp)
+    void calcSubsets(vector<int> nums,vector<vector<int>> &s,int i,int n,vector<int> temp)
     {
-        if (n>0)
+        s.push_back(temp);
+        for (int j=i; j<n; j++)
         {
-            vector<int> exc=temp;
-            vector<int> inc=temp;
-            inc.push_back(nums[n-1]);
-            sort(inc.begin(),inc.end());
-            sort(exc.begin(),exc.end());
-            if (n==1)
-            {
-                s.insert(inc);
-                s.insert(exc);
-                return;
-            }
-            calcSubsets(nums,s,n-1,inc);
-            calcSubsets(nums,s,n-1,exc);
+            if (j == i || nums[j] != nums[j - 1]) { 
+				temp.push_back(nums[j]);
+				calcSubsets(nums,s,j+1,n,temp);
+				temp.pop_back();
+			}
         }
     }
         
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        set<vector<int>> s;
+        vector<vector<int>> v;
+        sort(nums.begin(),nums.end());
         vector<int> temp;
         int n=nums.size();
-        calcSubsets(nums,s,n,temp);
-        vector<vector<int>> v;
-        for (set<vector<int>>::iterator it=s.begin(); it!=s.end(); it++)
-        {
-            v.push_back(*it);
-        }
+        calcSubsets(nums,v,0,n,temp);
         return v;
     }
 };
