@@ -12,12 +12,12 @@ public:
         {
             for (int j=i; j<n; j++)
             {
-                if (j==i || nums[j]!=nums[j-1])
-                {
+                // if (j==i || nums[j]!=nums[j-1])
+                // {
                     temp.push_back(nums[j]);
                     combinationSumUtil(nums,temp,s,j,n,target-nums[j]);
                     temp.pop_back();
-                }
+                // }
             }
         }
     }
