@@ -30,14 +30,6 @@ public:
             ans.push_back(temp);
             return;
         }
-        else if (i==j)
-        {
-            string temp_ans="";
-            temp_ans+=s[i];
-            temp.push_back(temp_ans);
-            ans.push_back(temp);
-            return;
-        }
         for (int k=i; k<=j; k++)
         {
             if (palindrome(s,i,k)!="")
