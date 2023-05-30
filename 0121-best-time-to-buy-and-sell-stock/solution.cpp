@@ -5,16 +5,17 @@ public:
         if (n==0){
             return 0;
         }
-        int minVal = prices[0];
-        int ans=0;
-        for (int i=1;i<n; i++){
-            if (minVal>prices[i]){
-                minVal=prices[i];
+        int min = prices[0];
+        int profit=0;
+        for (int i=0; i<n; i++){
+            if (min>prices[i])
+            {
+                min=prices[i];
             }
-            else{
-                ans = max(ans,prices[i]-minVal);
+            else if (min<prices[i] && profit<prices[i]-min){
+                profit=prices[i]-min;
             }
         }
-        return ans;
+        return profit;
     }
 };
