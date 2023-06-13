@@ -14,8 +14,9 @@ public:
         {
             if (ump.find(s[i])!=ump.end())
             {
-                if (st<=ump[s[i]])
+                if (st<=ump[s[i]]){
                     st=ump[s[i]]+1;
+                }
                 
             }
             ump[s[i]]=i;
