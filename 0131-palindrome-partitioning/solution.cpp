@@ -1,51 +1,44 @@
 class Solution {
 public:
-    string palindrome(string s,int i,int j)
-    {
-        string ans="";
-        int end=j;
-        while (i<end)
-        {
-            if (s[i]!=s[end])
-            {
-                return "";
+    static bool isPallindrome(string s, int i, int j ,int n){
+        bool res = true;
+        while (i<j){
+            if (s[i]!=s[j]){
+                res= false;
+                break;
+            }else{
+                i++;
+                j--;
             }
-            else
-            {
-                ans+=s[i];
-            }
-            i++;
-            end--;
         }
-        for (int l=i; l<=j; l++)
-        {
-            ans+=s[l];
-        }
-        return ans;
+        return res;
     }
-    void partitionUtil(string s,int i,int j,vector<vector<string>> &ans,vector<string> temp)
-    {
-        if (i>j)
-        {
+
+    static void partitionUtil(string s, int ind, vector<string> temp, vector<vector<string>> &ans, int n){
+        if (ind > n){
             ans.push_back(temp);
             return;
         }
-        for (int k=i; k<=j; k++)
-        {
-            if (palindrome(s,i,k)!="")
-            {
-                temp.push_back(palindrome(s,i,k));
-                partitionUtil(s,k+1,j,ans,temp);
+
+        for (int i=ind; i<=n; i++){
+            bool left = isPallindrome(s,ind,i,n);
+            if (left){
+                string resStr;
+                for (int j = ind; j<=i; j++){
+                    resStr.push_back(s[j]);
+                }
+                temp.push_back(resStr);
+                partitionUtil(s,i+1,temp,ans,n);
                 temp.pop_back();
             }
         }
     }
-    
+
     vector<vector<string>> partition(string s) {
         vector<vector<string>> ans;
         vector<string> temp;
-        int n=s.size()-1;
-        partitionUtil(s,0,n,ans,temp);
+        int n = s.size();
+        partitionUtil(s,0,temp,ans,n-1);
         return ans;
     }
 };
