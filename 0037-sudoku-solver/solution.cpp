@@ -1,52 +1,43 @@
 class Solution {
 public:
-    bool isValid(int i,int j,vector<vector<char>> board,char c)
-    {
-        int row=3*(i/3);
-        int col=3*(j/3);
-        for (int l=row; l<row+3; l++)
-        {
-            for (int m=col; m<col+3; m++)
-            {
-                if (board[l][m]==c)
-                {
+    bool isSafe(int i, int j, char num, vector<vector<char>>& board){
+        int rowNum = 3*(i/3);
+        int colNum = 3*(j/3);
+        int rowSize = rowNum+3;
+        int colSize = colNum+3;
+        for (int r=rowNum; r<rowSize; r++){
+            for (int s=colNum; s<colSize; s++){
+                if (board[r][s]==num){
                     return false;
                 }
             }
         }
-        for (int k=0; k<9;  k++)
-        {
-            if (board[i][k]==c || board[k][j]==c)
-            {
+        for (int k=0; k<9; k++){
+            if (board[k][j]==num || board[i][k]==num){
                 return false;
             }
         }
         return true;
     }
-    void solveSudoku(vector<vector<char>>& board) 
-    {
+
+    void solveSudoku(vector<vector<char>>& board) {
         solve(board);
     }
-    bool solve(vector<vector<char>>& board) {
-        int n=board.size();
-        for (int i=0; i<n; i++)
-        {
-            for (int j=0; j<n; j++)
-            {
-                if (board[i][j]=='.')
-                {
-                    for (char c='1'; c<='9'; c++)
-                    {
-                        if (isValid(i,j,board,c))
-                        {
+
+    bool solve(vector<vector<char>>& board){
+        for (int i=0; i<9; i++){
+            for (int j=0; j<9; j++){
+                if (board[i][j]=='.'){
+                    for (int k=1; k<=9; k++){
+                        char c = '0' + k;
+                        if (isSafe(i,j,c,board)){
                             board[i][j] = c;
-                            
-                        
-                        if(solve(board)==true)
-                            return true;
-                        else
-                            board[i][j] = '.';
-                        }
+                            if (solve(board)){
+                                return true;
+                            }else{
+                                board[i][j] = '.';
+                            }
+                        }           
                     }
                     return false;
                 }
