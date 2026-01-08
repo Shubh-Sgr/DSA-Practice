@@ -1,38 +1,43 @@
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size();
-      stack < int > st;
-      int leftsmall[n], rightsmall[n];
-      for (int i = 0; i < n; i++) {
-        while (!st.empty() && heights[st.top()] >= heights[i]) {
-          st.pop();
+         int n = heights.size();
+        stack < int > st;
+        vector<int> leftMin(n), rightMin(n);
+
+        for (int i=0; i<n; i++){
+            while (!st.empty() && heights[st.top()]>=heights[i]){
+                st.pop();
+            }
+            if (st.empty()){
+                leftMin[i] = 0;
+            }else{
+                leftMin[i] = st.top() +1;
+            }
+            st.push(i);
         }
-        if (st.empty())
-          leftsmall[i] = 0;
-        else
-          leftsmall[i] = st.top() + 1;
-        st.push(i);
-      }
-      // clear the stack to be re-used
-      while (!st.empty())
-        st.pop();
 
-      for (int i = n - 1; i >= 0; i--) {
-        while (!st.empty() && heights[st.top()] >= heights[i])
-          st.pop();
+        while (!st.empty()){
+            st.pop();
+        }
 
-        if (st.empty())
-          rightsmall[i] = n - 1;
-        else
-          rightsmall[i] = st.top() - 1;
+        for (int i=n-1; i>=0; i--){
+            while (!st.empty() && heights[st.top()]>=heights[i]){
+                st.pop();
+            }
+            if (st.empty()){
+                rightMin[i] = n-1;
+            }else{
+                rightMin[i] = st.top() - 1;
+            }
+            st.push(i);
+        }
 
-        st.push(i);
-      }
-      int maxA = 0;
-      for (int i = 0; i < n; i++) {
-        maxA = max(maxA, heights[i] * (rightsmall[i] - leftsmall[i] + 1));
-      }
-      return maxA;
+        int maxArea = INT_MIN;
+        for (int i=0; i<n; i++){
+            cout<<"leftMin"<<leftMin[i]<<" "<<rightMin[i]<<" ";
+            maxArea = max(maxArea , heights[i]*((rightMin[i]-leftMin[i])+1));
+        }
+        return maxArea;
     }
 };
