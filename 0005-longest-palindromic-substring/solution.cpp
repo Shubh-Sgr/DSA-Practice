@@ -1,33 +1,47 @@
 class Solution {
 public:
-    
-    void Utils(int left, int right, string s, int &max,string &ans)
-    {
+    string pallindrom(string s, int i ,int j){
         int n = s.size();
-        
-        while (left>=0 && right<n && s[left]==s[right])
-        {
-            if (max<right-left+1)
-            {
-                max=right-left+1;
-                ans=s.substr(left,max);
+        string ans = "";
+        while (i>=0 && j<n){
+            if (s[i]==s[j]){
+                i--;
+                j++;
+            }else{
+                break;
             }
-            left--;
-            right++;
         }
+
+        if (i<0){
+            i=-1;
+        }
+        if (j>=n){
+            j=n;
+        }
+
+        for (int k = i+1; k<j; k++){
+            ans+=s[k];
+        }
+        return ans;
     }
-    
     string longestPalindrome(string s) {
+        int maxCount = 0;
+        string ans = "";
         int n = s.size();
-        int max = 0;
-        string ans="";
-        
-        for (int i=0; i<n; i++)
-        {
-            Utils(i,i,s,max,ans);
-            Utils(i,i+1,s,max,ans);
+        if (s.size()<=1){
+            return s;
         }
-        
+        for (int i=0; i<n-1; i++){
+            string p1 = pallindrom(s,i,i);
+            string p2 = pallindrom(s,i,i+1);
+            if (p1.size()>maxCount && p1.size()>p2.size()){
+                maxCount = p1.size();
+                ans = p1;
+            }else if(p2.size()>maxCount && p2.size()>p1.size()){
+                maxCount = p2.size();
+                ans = p2;
+            }
+        }
         return ans;
     }
 };
