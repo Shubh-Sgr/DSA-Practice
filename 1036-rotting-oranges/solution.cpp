@@ -1,55 +1,54 @@
 class Solution {
 public:
+
     int orangesRotting(vector<vector<int>>& grid) {
-        int n=grid.size();
-        int m=grid[0].size();
-        
-        queue<pair<int,int>> q;
-        int time = -1;
-        int fresh=0;
-        int xDir[] = {1,-1,0,0};
-        int yDir[] = {0,0,1,-1};
-        
-        for (int i=0; i<n; i++){
-            for (int j=0; j<m; j++){
-                if (grid[i][j]==2){
-                    q.push({i,j});
-                }
-                else if (grid[i][j]==1){
-                    fresh++;
-                }
+       queue<pair<int,int>> q;
+       int time = -1;
+       int freshOranges = 0;
+       int x[4] = {-1,1,0,0};
+       int y[4] = {0,0,-1,1};
+
+       int m = grid.size();
+       int n = grid[0].size();
+
+       for (int i=0; i<m; i++){
+        for (int j=0; j<n; j++){
+            if (grid[i][j]==1){
+                freshOranges++;
+            }else if (grid[i][j]==2){
+                q.push({i,j});
             }
         }
-        
-        while (!q.empty()){
-            int qS = q.size();
-            
-            while (qS>0){
-            pair<int,int> p = q.front();
-            q.pop();
-            int x = p.first;
-            int y = p.second;
-            
-            int cX,cY;
-            for (int i=0; i<4; i++){
-                cX=x+xDir[i];
-                cY = y+yDir[i];
-                if (cX>=0 && cX<n && cY>=0 && cY<m && grid[cX][cY]==1){
-                    grid[cX][cY]=2;
-                    q.push({cX,cY});
-                    fresh--;
+       }
+
+       while (!q.empty()){
+            int size = q.size();
+
+            while (size>0){
+                pair<int,int> top = q.front();
+                q.pop();
+                int xVal = top.first;
+                int yVal = top.second;
+
+                for (int i=0; i<4; i++){
+                    int newX = xVal + x[i];
+                    int newY = yVal + y[i];
+                    if (newX>=0 && newX<m && newY>=0 && newY<n && grid[newX][newY]==1){
+                        q.push({newX,newY});
+                        grid[newX][newY]=2;
+                        freshOranges--;
+                    }
                 }
-            }
-                qS--;
+                size--;
             }
             time++;
-        }
-        if (fresh>0){
-            return -1;
-        }
-        if (time==-1)
-            return 0;
-        return time;
-        
+       }
+       if (freshOranges > 0){
+        return -1;
+       }
+       if (time == -1){
+        return 0;
+       }
+       return time;
     }
 };
