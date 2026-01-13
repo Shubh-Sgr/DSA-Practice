@@ -18,25 +18,36 @@ public:
 
 class Solution {
 public:
+    Node* utils(Node* root){
+        if (!root){
+            return NULL;
+        }
+        if (root->left){
+            root->left->next = root->right;
+        }
+        if (root->right){
+            root->right->next = root->next ? root->next->left : NULL; 
+        }
+        utils(root->left);
+        utils(root->right);
+        return root;
+    }
     Node* connect(Node* root) {
-        if (!root)
-            return root;
-        Node* Left_trav = root;
-        Node* curr=NULL;
-        
-        while (Left_trav->left)
-        {
-           curr = Left_trav;
-            while (curr)
-            {
+        if (!root){
+            return NULL;
+        }
+        Node* leftBound = root;
+        Node* curr = NULL;
+        while (leftBound->left){
+            curr = leftBound;
+            while (curr){
                 curr->left->next = curr->right;
-                if (curr->next)
-                {
+                if (curr->next){
                     curr->right->next = curr->next->left;
                 }
-                curr=curr->next;
+                curr = curr->next;
             }
-            Left_trav=Left_trav->left;
+            leftBound = leftBound->left;
         }
         return root;
     }
