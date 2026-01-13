@@ -11,30 +11,30 @@
  */
 class Solution {
 public:
-    TreeNode* build(vector<int> inorder,vector<int> postorder,int left,int right,int &parIdx)
-    {
-        if (left>right)
-        {
+    TreeNode *util(vector<int> inorder,vector<int> postorder,int &postInd, int st,int end){
+        if (st>end){
             return NULL;
         }
-        
-        int inIdx;
-        TreeNode* root=new TreeNode(postorder[parIdx--]);
-        for (int i=left; i<=right; i++)
-        {
-            if (inorder[i] == root->val)
-            {
-                inIdx=i;
+        int inIdx = -1;
+        for (int i=st; i<=end; i++){
+            if (inorder[i] == postorder[postInd]){
+                inIdx = i;
                 break;
             }
         }
-        root->right=build(inorder, postorder,inIdx+1,right,parIdx);
-        root->left=build(inorder, postorder,left,inIdx-1,parIdx);
-        return root;
-    }
-    
+        postInd--;
+        TreeNode* curr = new TreeNode(inorder[inIdx]);
+        curr->right = util(inorder,postorder,postInd,inIdx+1,end);
+        curr->left = util(inorder,postorder,postInd,st,inIdx-1);
+        return curr;
+    } 
+
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int parIdx=inorder.size()-1;
-        return build(inorder, postorder,0,inorder.size()-1,parIdx);
+        if (inorder.size()==0){
+            return NULL;
+        }
+        int n = inorder.size();
+        int postInd = n-1;
+        return util(inorder,postorder,postInd,0,n-1);
     }
 };
