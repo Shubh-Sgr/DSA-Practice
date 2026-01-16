@@ -11,31 +11,29 @@
  */
 class BSTIterator {
 public:
-    stack<int> s;
-    void rightTraverse(TreeNode* root,stack<int> &s){
-        if (!root){
-            return;
-        }
-        rightTraverse(root->right,s);
-        s.push(root->val);
-        rightTraverse(root->left,s);
-    }
-    
+    stack<TreeNode*> st;
     BSTIterator(TreeNode* root) {
-        rightTraverse(root,s);
+        TreeNode* curr = root;
+        while (curr){
+            st.push(curr);
+            curr = curr->left;
+        }
     }
     
     int next() {
-        if (!s.empty()){
-            int ans = s.top();
-            s.pop();
-            return ans;
+        TreeNode* ele = st.top();
+        int data = ele->val;
+        st.pop();
+        ele = ele->right;
+        while (ele){
+            st.push(ele);
+            ele = ele->left;
         }
-        return -1;
+        return data;
     }
     
     bool hasNext() {
-        return (!s.empty());
+        return !st.empty();
     }
 };
 
