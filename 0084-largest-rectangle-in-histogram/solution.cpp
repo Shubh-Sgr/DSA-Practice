@@ -4,6 +4,9 @@ public:
          int n = heights.size();
         stack < int > st;
         vector<int> leftMin(n), rightMin(n);
+        if (heights.size()==1){
+            return heights[0];
+        }
 
         for (int i=0; i<n; i++){
             while (!st.empty() && heights[st.top()]>=heights[i]){
@@ -12,7 +15,7 @@ public:
             if (st.empty()){
                 leftMin[i] = 0;
             }else{
-                leftMin[i] = st.top() +1;
+                leftMin[i] = st.top()+1;
             }
             st.push(i);
         }
@@ -28,7 +31,7 @@ public:
             if (st.empty()){
                 rightMin[i] = n-1;
             }else{
-                rightMin[i] = st.top() - 1;
+                rightMin[i] = st.top()-1;
             }
             st.push(i);
         }
