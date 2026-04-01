@@ -9,13 +9,14 @@ public:
        else if (n==2){
             return max(nums[0],nums[1]);
        }
-       int dp[101];
-       memset(dp,0,sizeof(dp));
-       dp[0] = nums[0];
-       dp[1] = max(nums[1],nums[0]);
+       int prev1 = nums[0];
+       int curr1 = max(nums[0],nums[1]);
        for (int i=2; i<n; i++){
-            dp[i] = max(dp[i-1],dp[i-2]+nums[i]);
+          int temp = curr1;
+          curr1 = max(curr1, prev1+nums[i]);
+          prev1 = temp;
        }
-       return dp[n-1];
+
+       return curr1;
     }
 };
