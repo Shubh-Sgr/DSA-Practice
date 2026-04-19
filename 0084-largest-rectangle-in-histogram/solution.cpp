@@ -13,9 +13,9 @@ public:
                 st.pop();
             }
             if (st.empty()){
-                leftMin[i] = 0;
+                leftMin[i] = -1;
             }else{
-                leftMin[i] = st.top()+1;
+                leftMin[i] = st.top();
             }
             st.push(i);
         }
@@ -29,9 +29,9 @@ public:
                 st.pop();
             }
             if (st.empty()){
-                rightMin[i] = n-1;
+                rightMin[i] = n;
             }else{
-                rightMin[i] = st.top()-1;
+                rightMin[i] = st.top();
             }
             st.push(i);
         }
@@ -39,7 +39,7 @@ public:
         int maxArea = INT_MIN;
         for (int i=0; i<n; i++){
             cout<<"leftMin"<<leftMin[i]<<" "<<rightMin[i]<<" ";
-            maxArea = max(maxArea , heights[i]*((rightMin[i]-leftMin[i])+1));
+            maxArea = max(maxArea , heights[i]*((rightMin[i]-leftMin[i])-1));
         }
         return maxArea;
     }
