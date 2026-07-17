@@ -17,7 +17,6 @@ public:
                 if (st<=ump[s[i]]){
                     st=ump[s[i]]+1;
                 }
-                
             }
             ump[s[i]]=i;
             end=i;
