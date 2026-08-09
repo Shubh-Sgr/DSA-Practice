@@ -1,30 +1,24 @@
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        unordered_map<char,int> ump;
         int n = s.size();
-        
-        for (int i=0; i<n; i++){
-            ump[s[i]] = i;
-        }
-        
-        int i=0;
-        int max=0;
-        int point=0;
         vector<int> ans;
-        while (i<n){
-            if (max<ump[s[i]]){
-                max=ump[s[i]];
-            }
-            if (max==ump[s[i]] && i==ump[s[i]]){
-                ans.push_back(i+1-point);
-                point=i+1;
-                max=0;
-            }
-            i++;
+        unordered_map<char, int> ump;
+        for (int j=0; j<n; j++){
+            ump[s[j]] = j;
         }
-        if (max!=0){
-            ans.push_back(i+1-point);
+        int i = 0;
+        int maxJump;
+        int st;
+        while (i<n){
+            st = i;
+            maxJump = ump[s[i]];
+            while (i<maxJump && i<n){
+                i++;
+                maxJump = ump[s[i]]>maxJump ? ump[s[i]]: maxJump;
+            }
+            ans.push_back(i-st+1);
+            i++;
         }
         return ans;
     }
