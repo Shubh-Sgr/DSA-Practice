@@ -10,7 +10,7 @@ public:
                 boats++;
                 l++;
                 r--;
-            }else if(people[r]<=limit){
+            }else{
                 r--;
                 boats++;
             }
