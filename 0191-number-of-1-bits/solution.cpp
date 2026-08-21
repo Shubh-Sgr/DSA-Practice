@@ -2,8 +2,9 @@ class Solution {
 public:
     int hammingWeight(int n) {
         int count = 0;
-        for (int i=0; i<32; i++){
-            count+=((n>>i)&1);
+        while (n){
+            count++;
+            n = n&(n-1);
         }
         return count;
     }
