@@ -4,9 +4,9 @@ public:
         int n = nums.size();
         int pivot = -1;
 
-        for (int i=n-1; i>0; i--){
-            if (nums[i] > nums[i-1]){
-                pivot = i-1;
+        for (int i=n-2; i>=0; i--){
+            if (nums[i]< nums[i+1]){
+                pivot = i;
                 break;
             }
         }
@@ -17,13 +17,13 @@ public:
         }
 
         for (int i=n-1; i>=0; i--){
-            if (nums[pivot] < nums[i]){
+            if (nums[i]>nums[pivot]){
                 int temp = nums[i];
                 nums[i] = nums[pivot];
                 nums[pivot] = temp;
-                sort(nums.begin()+pivot+1,nums.end());
                 break;
             }
         }
+        sort(nums.begin()+pivot+1,nums.end());
     }
 };
