@@ -20,32 +20,30 @@ public:
 */
 
 class Solution {
-    private:
-        unordered_map<Node*,Node*> ump;
-    public:
-        Node* cloneGraph(Node* node) {
-            if (!node)
-                return NULL;
-            Node* root = new Node(node->val);
-            ump[node] = root;
-            queue<Node*> q;
-            q.push(node);
-            
-            while (!q.empty())
-            {
-                Node* curr = q.front();
-                q.pop();
-                for (Node* neighbor:curr->neighbors)
-                {
-                    if (ump.find(neighbor)==ump.end())
-                    {
-                        ump[neighbor]=new Node(neighbor->val);
-                        q.push(neighbor);
-                        
-                    }
-                    ump[curr]->neighbors.push_back(ump[neighbor]);
-                }
-            }
-            return root;
+public:
+    Node* cloneGraph(Node* node) {
+        unordered_map<Node*, Node*> ump;
+        queue<Node*> q;
+        if (!node){
+            return NULL;
         }
+        Node* root = new Node(node->val);   
+        ump[node] = root;
+        q.push(node);
+        while (!q.empty()){
+            Node* curr = q.front();
+            q.pop();
+            vector<Node*> neighb = curr->neighbors;
+            int len = neighb.size();
+            for (int i=0; i<len; i++){
+                if (ump.find(neighb[i])==ump.end()){
+                    Node* cloneNeighb = new Node(neighb[i]->val);
+                    ump[neighb[i]] = cloneNeighb;
+                    q.push(neighb[i]);
+                }
+                ump[curr]->neighbors.push_back(ump[neighb[i]]);
+            }
+        }
+        return root;
+    }
 };
