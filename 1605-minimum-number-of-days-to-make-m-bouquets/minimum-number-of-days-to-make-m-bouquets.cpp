@@ -23,6 +23,8 @@ public:
                 bouq++;
                 flower=0;
             }
+            if (bouq >= m)
+                break;
          }
          if (bouq>=m){
             high = day;
